@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'mathfilters',
     'portfolio',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

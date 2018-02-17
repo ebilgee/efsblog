@@ -103,11 +103,11 @@ class Digitalcurrency(models.Model):
 
     def current_currency_price(self):
         symbol_f = str(self.symbol)
-        main_api = 'https://api.cryptonator.com/api/ticker/'
-        main_api2 = '-usd'
+        main_api = 'https://min-api.cryptocompare.com/data/price?fsym='
+        main_api2 = '&tsyms=USD'
         url = main_api + symbol_f + main_api2
         json_data = requests.get(url).json()
-        open_price = float(json_data["ticker"]['price'])
+        open_price = float(json_data["USD"])
         share_value = open_price
         return share_value
 

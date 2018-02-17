@@ -81,13 +81,35 @@ class Stock(models.Model):
         return share_value
 
     def current_stock_value(self):
-        symbol_f = str(self.symbol)
-        main_api = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='
-        api_key = '&interval=1min&apikey=BOHZXUJSER89EKM4'
-        url = main_api + symbol_f + api_key
-        json_data = requests.get(url).json()
-        mkt_dt = (json_data["Meta Data"]["3. Last Refreshed"])
-        open_price = float(json_data["Time Series (1min)"][mkt_dt]["1. open"])
-        share_value = open_price
-        return float(share_value) * float(self.shares)
+        return float(self.current_stock_price()) * float(self.shares)
 
+class Digitalcurrency(models.Model):
+    customer = models.ForeignKey(Customer, related_name='ccurrencies')
+    symbol = models.CharField(max_length=10)
+    name = models.CharField(max_length=50)
+    purchase_price = models.DecimalField(max_digits=10, decimal_places=3)
+    purchase_date = models.DateField(default=timezone.now, blank=True, null=True)
+    balance = models.DecimalField(max_digits=10, decimal_places=8)
+
+    def created(self):
+        self.recent_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.customer)
+
+    def initial_balance_value(self):
+        return self.purchase_price * self.balance
+
+    def current_currency_price(self):
+        symbol_f = str(self.symbol)
+        main_api = 'https://api.cryptonator.com/api/ticker/'
+        main_api2 = '-usd'
+        url = main_api + symbol_f + main_api2
+        json_data = requests.get(url).json()
+        open_price = float(json_data["ticker"]['price'])
+        share_value = open_price
+        return share_value
+
+    def current_balance_value(self):
+        return float(self.current_currency_price()) * float(self.balance)

@@ -2,6 +2,8 @@
 {% load mathfilters %}
 {% load humanize %}
 
+
+
 <!DOCTYPE html>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -14,6 +16,49 @@
     <title>Eagle Financial Services</title>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <!-- Collapsed Hamburger -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#myNavbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Branding Image -->
+            <a class="navbar-brand" href="/">
+                Eagle Financial Services
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'portfolio:home' %}">Home</a></li>
+                <li><a href="{% url 'portfolio:customer_list' %}">Customers</a></li>
+                <li><a href="{% url 'portfolio:investment_list' %}">Investments</a></li>
+                <li><a href="{% url 'portfolio:stock_list' %}">Stocks</a></li>
+                <li><a href="{% url 'portfolio:currency_list' %}">Digital Currency</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{% url 'logout' %}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -115,6 +160,76 @@
                     <td>{{ sum_of_initial_stock_value|intcomma }}</td>
                     <td>{{ sum_current_stocks_value|intcomma }}</td>
                     <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value|intcomma }}</td>
+
+                </tr>
+        </tbody>
+    </table>
+</div>
+<br/>
+
+<div class="row">
+    <h2 style="padding-left: 15Px">Digital Currency Exchange Rate Information</h2>
+</div>
+<div>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+
+            <th>Customer</th>
+
+            <th>Symbol</th>
+
+            <th>Currency</th>
+
+            <th>Balance</th>
+
+            <th>Initial Currency Price (USD)</th>
+            <th>Purchased Date</th>
+
+            <th>Initial Currency Value (USD)</th>
+
+            <th>Current Currency Price (USD)</th>
+
+            <th>Current Currency Value (USD)</th>
+
+            <th>Results</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for dcurrency in dcurrencies %}
+            <tr>
+                <td>{{ dcurrency.customer }}</td>
+                <td>{{ dcurrency.symbol }}</td>
+                <td>{{ dcurrency.name }}</td>
+                <td>{{ dcurrency.balance }}</td>
+                <td>{{ dcurrency.purchase_price }}</td>
+                <td>{{ dcurrency.purchase_date }}</td>
+                <td>{{ dcurrency.initial_balance_value|intcomma }}</td>
+                <td>{{ dcurrency.current_currency_price|intcomma }}</td>
+                <td>{{ dcurrency.current_balance_value|intcomma }}</td>
+                <td>{{ dcurrency.current_balance_value|sub:dcurrency.initial_balance_value|intcomma }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <div>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Total of Initial Digital Currency (USD)</th>
+            <th>Total of Current Balance (USD)</th>
+            <th>Results</th>
+        </tr>
+
+        </thead>
+        <tbody>
+                <tr>
+                    <td>{{ sum_initial_balance_value|intcomma }}</td>
+                    <td>{{ sum_current_balance_value|intcomma }}</td>
+                    <td>{{ sum_current_balance_value|sub:sum_initial_balance_value|intcomma }}</td>
 
                 </tr>
         </tbody>

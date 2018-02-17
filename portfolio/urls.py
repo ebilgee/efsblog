@@ -19,6 +19,11 @@ urlpatterns = [
     url(r'^investment/(?P<pk>\d+)/edit/$', views.investment_edit, name='investment_edit'),
     url(r'^investment/create/$', views.investment_add, name='investment_add'),
 
+    url(r'^currency/$', views.currency_list, name='currency_list'),
+    url(r'^currency/(?P<pk>\d+)/delete/$', views.currency_delete, name='currency_delete'),
+    url(r'^currency/(?P<pk>\d+)/edit/$', views.currency_edit, name='currency_edit'),
+    url(r'^currency/create/$', views.currency_new, name='currency_new'),
+
     url(r'^customers_json/', views.CustomerList.as_view()),
 
 ]

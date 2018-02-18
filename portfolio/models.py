@@ -88,7 +88,7 @@ class Digitalcurrency(models.Model):
     name = models.CharField(max_length=50)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=3)
     purchase_date = models.DateField(default=timezone.now, blank=True, null=True)
-    balance = models.DecimalField(max_digits=10, decimal_places=8)
+    balance = models.DecimalField(max_digits=10, decimal_places=4)
 
     def created(self):
         self.recent_date = timezone.now()

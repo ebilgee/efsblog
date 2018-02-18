@@ -91,9 +91,9 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ sum_of_initial_stock_value|intcomma }}</td>
-                <td>{{ sum_current_stocks_value|intcomma }}</td>
-                <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value|intcomma }}</td>
+                <td>{{ sum_of_initial_stock_value|add:sum_initial_balance_value|add:sum_acquired_value.acquired_value__sum|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|add:sum_recent_value.recent_value__sum|add:sum_current_balance_value|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|add:sum_recent_value.recent_value__sum|add:sum_current_balance_value|sub:sum_of_initial_stock_value|sub:sum_initial_balance_value|sub:sum_acquired_value.acquired_value__sum|intcomma }}</td>
             </tr>
         </tbody>
     </table>
